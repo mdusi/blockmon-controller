@@ -1,0 +1,12 @@
+[MAIN]
+bmnodes = /path/to/bmnodes.db
+templates = /path/to/templates.db
+datafile = /path/to/datafiles
+
+#server for node registration
+[NODE_IFACE]
+registration_port = 7090
+
+#server for requests from EXTernal
+[EXT_IFACE]
+listening_port = 7070

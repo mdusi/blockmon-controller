@@ -1,0 +1,78 @@
+<templatedef id="pkt_counter_aggregator">
+  <description>
+    One node counts packets to/from port X 
+    and sends the report to another node, 
+    which prints the total number of received packets.
+  </description>
+
+  <vars>
+    <var name="bpf_filter" type="string" desc="traffic to filter"/>
+    <!-- <var name="datafile" type="string" desc="name of datafile"/> -->
+  </vars>
+
+  <distcomposition id="distcomp_example">
+    
+    <topology type="manual">
+      <params>
+        <node id="1" composition="step1"/> 
+        <node id="2" composition="step2"/>
+	<edge src_id="1" dst_id="2"/>
+      </params>
+    </topology>
+
+  <composition id="step1">
+    <general>
+      <clock type="wall" />
+    </general>
+
+    <install>
+      <threadpool id="pool1" num_threads="1">
+      </threadpool>
+
+      <block id="collect" type="PcapSource" invocation="async" threadpool="pool1">
+        <params>
+	  <source type="live" name="eth0"/>
+	  <bpf_filter expression="@bpf_filter"/>
+        </params>
+      </block>
+      
+      <block id="export" type="IPFIXExporter" export="yes">
+        <params>
+	  <export host="@ip['importer']" transport="tcp"/>
+        </params>
+      </block>
+
+      <connection src_block="collect" src_gate="source_out" dst_block="export" dst_gate="in_msg"/>
+      <!-- <datafile filename="@datafile"/> -->
+    </install>
+  </composition>
+
+  <composition id="step2">
+    <general>
+      <clock type="wall" />
+    </general>
+    
+    <install>
+      <threadpool id="pool2" num_threads="1">
+      </threadpool>
+
+      <block id="importer" type="IPFIXSource" invocation="async" threadpool="pool2" import="yes"> 
+        <params>
+          <collect transport="tcp"/>
+        </params>
+      </block>
+      
+      <block id="counter" type="PacketCounter">
+        <params>
+        </params>
+	  </block>
+
+      <connection src_block="importer" src_gate="source_out" dst_block="counter" dst_gate="in_pkt"/>
+
+    </install>
+
+  </composition>
+
+  </distcomposition>
+
+</templatedef>
