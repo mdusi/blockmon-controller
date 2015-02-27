@@ -15,6 +15,7 @@ controller at the following links:
 
 * [Stream-monitoring with BlockMon: convergence of network measurements and data analytics platforms](http://www.ing.unibs.it/~maurizio.dusi/pub/dblockmon-ccr2013.pdf), ACM SIGCOMM Computer Communication Review, 2013
 
+* [Documentation and APIs](https://www.ict-mplane.eu/public/blockmon-controller)
 
 ## Install
 
