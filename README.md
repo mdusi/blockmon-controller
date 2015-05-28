@@ -1,5 +1,7 @@
 # Blockmon Controller
 
+[![mPlane](http://www.ict-mplane.eu/sites/default/files//public/mplane_final_256x_0.png)](http://www.ict-mplane.eu/)
+
 This codes implements the Blockmon controller, that is the controller
 for deploying and checking the execution of distributed applications 
 that run over a set of Blockmon nodes.
